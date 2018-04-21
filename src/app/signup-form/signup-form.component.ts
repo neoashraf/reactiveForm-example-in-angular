@@ -31,6 +31,12 @@ export class SignupFormComponent {
   get email(){
     return this.form.get('email');
   }
+
+  getEmailValidation() {
+    return this.email.hasError('required') ? 'Email is required.' :
+        this.email.hasError('email') ? 'Not a valid email.' :
+            '';
+  }
   get dateofBirth(){
     return this.form.get('dateofBirth');
   }
