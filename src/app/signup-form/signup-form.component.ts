@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
+import { UsernameValidators } from '../common/username.validator';
+import { ConfirmPasswordValidator } from '../common/confirm-password.validator';
 
 @Component({
   selector: 'signup-form',
@@ -12,16 +14,20 @@ export class SignupFormComponent {
 
   submitSuccess : boolean = false;
   register : boolean = false;
+  
   toRegister(){
     this.register = true;
   }
 
   form = new FormGroup({
-    username : new FormControl('',[Validators.required,Validators.minLength(4),Validators.maxLength(10)]),
+    username : new FormControl('',
+     [Validators.required,Validators.minLength(4),Validators.maxLength(10),
+      UsernameValidators.cannotContainSpace] , UsernameValidators.shouldBeUnique 
+    ),
     email : new FormControl('',[Validators.required,Validators.email]),
     dateofBirth : new FormControl('',Validators.required),
     password : new FormControl('',[Validators.required,Validators.minLength(8)]),
-    confirmPassword : new FormControl('',[Validators.required])
+    confirmPassword : new FormControl('',[Validators.required,ConfirmPasswordValidator.doesMatchWithPassword])
   });
 
   get username(){
@@ -37,6 +43,7 @@ export class SignupFormComponent {
         this.email.hasError('email') ? 'Not a valid email.' :
             '';
   }
+
   get dateofBirth(){
     return this.form.get('dateofBirth');
   }

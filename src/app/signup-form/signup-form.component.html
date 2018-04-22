@@ -1,70 +1,64 @@
-
 <div class="container">
 
-    <hr>
-        <button type="button" class="btn btn-info btn-lg pull-right" (click)="toRegister()">Register</button>
-        <h1>Welcome to our site</h1>
-    <hr>
+  <hr>
+  <button type="button" class="btn btn-info btn-lg pull-right" (click)="toRegister()">Register</button>
+  <h1>Welcome to our site</h1>
+  <hr>
 
-    <form *ngIf="register" [formGroup]="form" (ngSubmit)="submit()">
+  <form *ngIf="register" [formGroup]="form" (ngSubmit)="submit()">
 
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input 
-                formControlName ="username"
-                id="username" 
-                type="text" 
-                class="form-control">
-            <div class="alert alert-danger" *ngIf="username.touched && username.invalid">
-                <div *ngIf="username.errors.required">Username is required.</div>
-                <div *ngIf="username.errors.minlength">Username must be at-least {{username.errors.minlength.requiredLength}} characters.</div>
-                <div *ngIf="username.errors.maxlength">Username can be at-most {{username.errors.maxlength.requiredLength}} characters.</div>
-            </div>
-        </div>
-        <div>
-            <label for="email">Email</label>
-            <input 
-                formControlName ="email" 
-                id="email" 
-                type ="email" 
-                class="form-control">
-            <div class="alert alert-danger" *ngIf="email.touched && email.invalid">
-                {{getEmailValidation()}}
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="dateofBirth">Date of Birth</label>
-            <input 
-                formControlName ="dateofBirth"
-                id="dateofBirth" 
-                type="date" 
-                class="form-control">
-            <div class="alert alert-danger" *ngIf="dateofBirth.touched && dateofBirth.invalid">Date-of-Birth is required.</div>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-                formControlName ="password"
-                id="password" 
-                type="password" 
-                class="form-control">
-                <div class="alert alert-danger" *ngIf="password.touched && password.invalid">
-                        <div *ngIf="password.errors.required">Password is required.</div>
-                        <div *ngIf="password.errors.minlength">Pasword must be at-least {{password.errors.minlength.requiredLength}} characters.</div>
-                    </div>
-        </div>
-        <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input 
-                formControlName ="confirmPassword"
-                id="confirmPassword" 
-                type="password" 
-                class="form-control">
-        </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input formControlName="username" id="username" type="text" class="form-control">
+      <div *ngIf="username.pending">Checking availability ...</div>
+      <div class="alert alert-danger" *ngIf="username.touched && username.invalid">
+        <div *ngIf="username.errors.required">Username is required.</div>
+        <div *ngIf="username.errors.minlength">Username must be at-least {{username.errors.minlength.requiredLength}} characters.</div>
+        <div *ngIf="username.errors.maxlength">Username can be at-most {{username.errors.maxlength.requiredLength}} characters.</div>
+        <div *ngIf="username.errors.cannotContainSpace">Username can not contain space.</div>
+        <div *ngIf="username.errors.shouldBeUnique">Username "{{username.value}}" is not avilable</div>
+      </div>
+    </div>
 
-        <p >{{form.value | json}}</p>
+    <div>
+      <label for="email">Email</label>
+      <input formControlName="email" id="email" type="email" class="form-control">
+      <div class="alert alert-danger" *ngIf="email.touched && email.invalid">
+        {{getEmailValidation()}}
+      </div>
+    </div>
 
-        <button [disabled]="!form.valid" class="btn btn-primary" type="submit" >Sign Up</button>
-    </form>
-    <p *ngIf="submitSuccess">User is Registered Successfully.</p>
+    <div class="form-group">
+      <label for="dateofBirth">Date of Birth</label>
+      <input formControlName="dateofBirth" id="dateofBirth" type="date" class="form-control">
+      <div class="alert alert-danger" *ngIf="dateofBirth.touched && dateofBirth.invalid">Date-of-Birth is required.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input formControlName="password" id="password" type="password" class="form-control">
+      <div class="alert alert-danger" *ngIf="password.touched && password.invalid">
+        <div *ngIf="password.errors.required">Password is required.</div>
+        <div *ngIf="password.errors.minlength">Pasword must be at-least {{password.errors.minlength.requiredLength}} characters.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input formControlName="confirmPassword" id="confirmPassword" type="password" class="form-control">
+      <div class="alert alert-danger" *ngIf="confirmPassword.touched && confirmPassword.invalid">
+        <!-- <div *ngIf="confirmPassword.errors.required">Confirm Password is required.</div> -->
+        <div *ngIf="!confirmPassword.errors.doesMatchWithPassword; else matchesWithPass">Password does not match</div>
+        <ng-template #matchesWithPass>Password Matched.</ng-template>
+      </div>
+    </div>
+
+    <p>{{form.value | json}}</p>
+
+    <button [disabled]="!form.valid" class="btn btn-primary" type="submit">Sign Up</button>
+
+  </form>
+
+  <p *ngIf="submitSuccess">User is Registered Successfully.</p>
+  
 </div>
