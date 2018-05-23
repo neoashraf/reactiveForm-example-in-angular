@@ -16,7 +16,7 @@ export class SignupFormComponent {
   register : boolean = false;
   
   toRegister(){
-    this.register = true;
+    this.register = !this.register;
   }
 
   form = new FormGroup({
@@ -47,9 +47,11 @@ export class SignupFormComponent {
   get dateofBirth(){
     return this.form.get('dateofBirth');
   }
+
   get password(){
     return this.form.get('password');
   }
+
   get confirmPassword(){
     return this.form.get('confirmPassword');
   }

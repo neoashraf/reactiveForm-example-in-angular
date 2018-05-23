@@ -1,0 +1,54 @@
+<div class="container">
+
+  <hr>
+  <button type="button" class="btn btn-info btn-lg pull-right" (click)="toChangePass()">Forgot  Password</button>
+  <h1>Welcome to our site</h1>
+  <hr>
+
+  <form *ngIf="changePass" [formGroup]="form">
+
+    <div class="form-group">
+      <label for="password">Old Password</label>
+      <input formControlName="oldPassword" id="password" type="password" class="form-control">
+      <div *ngIf="oldPassword.pending">Checking password ...</div>
+      <div class="alert alert-danger" *ngIf="oldPassword.touched && oldPassword.invalid">
+        <div *ngIf="oldPassword.errors.required">Old Password is required.</div>
+        <div *ngIf="oldPassword.errors.passMatcher">Password is matched.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">New Password</label>
+      <input formControlName="newPassword" id="newPassword" type="password" class="form-control">
+      <div class="alert alert-danger" *ngIf="newPassword.touched && newPassword.invalid">
+        <div *ngIf="newPassword.errors.required">Don't you want to set a new Password.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm New Password</label>
+      <input formControlName="confirmPassword" id="confirmPassword" type="password" class="form-control">
+      <div >
+          <div class="alert alert-danger" 
+            *ngIf="newPassword.invalid && confirmPassword.dirty"
+          >
+          At first provide a valid new password.
+          </div>
+          <div class="alert alert-danger" 
+            *ngIf="newPassword.valid && confirmPassword.touched && 
+            confirmPassword.invalid && confirmPassword.errors.required"
+          >
+          You must confirm your password
+          </div>
+        <!-- <div *ngIf="!confirmPassword.errors.doesMatchWithPassword; else matchesWithPass">Password does not match</div>
+        <ng-template #matchesWithPass>Password Matched.</ng-template> -->
+      </div>
+    </div>
+
+    <p>{{form.value | json}}</p>
+
+    <button [disabled]="!form.valid" class="btn btn-primary" type="submit">Submit</button>
+
+  </form>
+  
+</div>

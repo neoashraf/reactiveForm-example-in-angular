@@ -4,12 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignupFormComponent
+    SignupFormComponent,
+    ForgotPassComponent,
+    ForgotPassComponent
   ],
   imports: [
     BrowserModule,
